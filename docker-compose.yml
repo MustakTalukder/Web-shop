@@ -1,45 +1,41 @@
-version: '3.9'
-
+version: "3.9"
+   
 services:
-  backend:
-    build:
-      context: ./backend
-    command: python manage.py runserver 0.0.0.0:8000
+  db:
+    image: mysql:5.7
+    platform: linux/amd64
+    container_name: "webshops_db"
+    environment:
+      MYSQL_DATABASE: webshopdb
+      MYSQL_USER: webshop
+      MYSQL_PASSWORD: webshop
+      MYSQL_ROOT_PASSWORD: webshop
+    ports:
+      - "3306:3306"
     volumes:
-      - ./backend:/code
+      - mysql_volume:/var/lib/mysql
+
+  backend:
+    build: 
+      context: ./backend
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn server.wsgi:application --bind 0.0.0.0:8000"
     ports:
       - "8000:8000"
     depends_on:
       - db
-    env_file:
-      - ./backend/.env
-
-  frontend:
-    build:
-      context: ./frontend
-    command: npm start
     volumes:
-      - ./frontend:/app
+      - staticfiles:/backend/staticfiles
+  nginx:
+    build: 
+      context: .
+      dockerfile: ./webserver/Dockerfile
+    volumes:
+      - staticfiles:/staticfiles
     ports:
-      - "3000:3000"
+      - "80:80"
     depends_on:
       - backend
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-  
-  db:
-    image: mysql:5.7
-    platform: linux/amd64
-    container_name: "db_cont"
-    environment:
-      MYSQL_DATABASE: webshopsql
-      MYSQL_USER: webshop
-      MYSQL_PASSWORD: webshop
-      MYSQL_ROOT_PASSWORD: webroot
-    ports:
-      - "3307:3307"
-    volumes:
-      - db_data:/var/lib/mysql
-
+      - db
 volumes:
-  db_data:
+  mysql_volume:
+  staticfiles:
