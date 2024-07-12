@@ -13,7 +13,7 @@ This repository contains a webshop application built with Django for the backend
 To get started with this project, follow these steps:
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/MustakTalukder/Web-shop.git .
+   git clone https://github.com/MustakTalukder/Web-shop.git
 
 2. **Run it to build docker:**
    ```bash
