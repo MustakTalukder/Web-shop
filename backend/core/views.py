@@ -20,12 +20,15 @@ def apiOverview(request):
     return Response(api_urls)
 """
 
+strng = {
+    'mustak': 9900
+}
 
 @api_view(['GET'])
 def ShowAll(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    return Response(strng)
 
 
 @api_view(['GET'])

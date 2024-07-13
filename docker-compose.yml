@@ -1,8 +1,8 @@
-version: "3.9"
+version: "3.8"
    
 services:
   db:
-    image: mysql:5.7
+    image: mysql
     platform: linux/amd64
     container_name: "webshops_db"
     environment:
@@ -16,26 +16,39 @@ services:
       - mysql_volume:/var/lib/mysql
 
   backend:
+    container_name: backend-cnt
+    image: backend-image
     build: 
       context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DEBUG: 'true'
     command: sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn server.wsgi:application --bind 0.0.0.0:8000"
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     volumes:
       - staticfiles:/backend/staticfiles
-  nginx:
+    depends_on:
+      - db
+
+  frontend:
+    container_name: frontend-cnt
+    image: frontend-image
     build: 
-      context: .
-      dockerfile: ./webserver/Dockerfile
-    volumes:
-      - staticfiles:/staticfiles
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "3000:3000" 
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
     depends_on:
       - backend
       - db
 volumes:
   mysql_volume:
   staticfiles:
+  frontend:
