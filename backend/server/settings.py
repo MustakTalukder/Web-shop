@@ -101,7 +101,7 @@ DATABASES = {
         "NAME": "webshopdb",
         "USER": "webshop",
         "PASSWORD": "webshop",
-        "HOST": "webshops_db",
+        "HOST": "mysql_cnt",
         "PORT": "3306",
     }
 }

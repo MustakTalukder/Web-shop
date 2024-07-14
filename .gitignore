@@ -1,18 +1,18 @@
 # Ignore Python bytecode and other Python-related files
-backend/*.py[cod]
-backend/__pycache__/
-backend/*.so
+*.py[cod]
+__pycache__/
+*.so
 
 # Ignore Django migrations
-backend/app/migrations/
+**/migrations/
 
 # Ignore virtual environments
-backend/env/
-backend/venv/
-backend/ENV/
-backend/env.bak/
-backend/venv.bak/
-backend/.env
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.env
 
 # Ignore node_modules
 frontend/node_modules/
@@ -27,8 +27,8 @@ frontend/build/
 
 # Ignore IDE specific files
 .vscode/
-.git/
 .idea/
+.git/
 *.swp
 
 # Ignore OS-specific files
@@ -38,3 +38,9 @@ Thumbs.db
 # Ignore other temporary files
 *.tmp
 *.temp
+
+# Specific ignores for Python project structure
+backend/core/migrations/
+backend/core/__pycache__/
+backend/server/migrations/
+backend/server/__pycache__/

@@ -4,7 +4,7 @@ services:
   db:
     image: mysql
     platform: linux/amd64
-    container_name: "webshops_db"
+    container_name: "mysql_cnt"
     environment:
       MYSQL_DATABASE: webshopdb
       MYSQL_USER: webshop
