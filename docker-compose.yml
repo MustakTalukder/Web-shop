@@ -1,0 +1,54 @@
+version: "3.8"
+   
+services:
+  db:
+    image: mysql
+    platform: linux/amd64
+    container_name: "mysql_cnt"
+    environment:
+      MYSQL_DATABASE: webshopdb
+      MYSQL_USER: webshop
+      MYSQL_PASSWORD: webshop
+      MYSQL_ROOT_PASSWORD: webshop
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_volume:/var/lib/mysql
+
+  backend:
+    container_name: backend-cnt
+    image: backend-image
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - DEBUG=true
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - db
+
+  frontend:
+    container_name: frontend-cnt
+    image: frontend-image
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" 
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
+    depends_on:
+      - backend
+      - db
+volumes:
+  mysql_volume:
+  staticfiles:
+  frontend:
