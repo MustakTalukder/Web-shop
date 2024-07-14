@@ -15,6 +15,10 @@ export default defineConfig({
     port: 3000, // Change this to the desired port number
   },
   server: {
+    watch: {
+      usePolling: true,
+    },
+    host: true,
     strictPort: true,
     port: 3000, // Change this to the desired port number
   },

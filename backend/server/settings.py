@@ -66,6 +66,10 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 ROOT_URLCONF = 'server.urls'
 
 TEMPLATES = [
@@ -97,7 +101,7 @@ DATABASES = {
         "NAME": "webshopdb",
         "USER": "webshop",
         "PASSWORD": "webshop",
-        "HOST": "webshops_db",
+        "HOST": "mysql_cnt",
         "PORT": "3306",
     }
 }
