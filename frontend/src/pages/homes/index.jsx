@@ -1,5 +1,6 @@
 import Header1 from "@/components/headers/Header1";
 import Home from "@/components/homes/Home";
+import Footers from "@/components/footers/Footers";
 import MetaComponent from "@/components/common/MetaComponent";
 import ProductList from "@/data/productList";
 const metadata = {
@@ -15,6 +16,7 @@ export default function HomePage() {
         <div className="mb-4 pb-4"></div>
         <Home />
         <ProductList />
+        <Footers />
       </main>
     </>
   );
