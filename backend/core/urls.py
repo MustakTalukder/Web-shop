@@ -1,9 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.conf.urls.static import static
+from django.contrib import admin
 
 urlpatterns = [
-    #path('', views.apiOverview, name='apiOverview'),
+    # path('', views.apiOverview, name='apiOverview'),
+    path('admin/', admin.site.urls),
     path('product-list/', views.ShowAll, name='product-list'),
     path('product-detail/<int:pk>/', views.ViewProduct, name='product-detail'),
     path('product-create/', views.CreateProduct, name='product-create'),
