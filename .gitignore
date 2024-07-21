@@ -41,6 +41,7 @@ Thumbs.db
 
 # Specific ignores for Python project structure
 backend/core/migrations/
+backend/core/media/products/ 
 backend/core/__pycache__/
 backend/server/migrations/
 backend/server/__pycache__/
