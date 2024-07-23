@@ -10,6 +10,8 @@ class ProductAdminForm(forms.ModelForm):
         model = Product
         fields = '__all__'
 
+    # initialization
+
     def __init__(self, *args, **kwargs):
         super(ProductAdminForm, self).__init__(*args, **kwargs)
         if 'instance' in kwargs and kwargs['instance']:
