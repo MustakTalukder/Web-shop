@@ -28,7 +28,6 @@ frontend/build/
 
 # Ignore IDE specific files
 .vscode/
-.vscode
 .idea/
 .git/
 *.swp
