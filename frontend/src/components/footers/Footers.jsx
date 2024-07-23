@@ -33,7 +33,7 @@ export default function Footer() {
                             <strong className="fw-medium">admin@webshop.com</strong>
                         </p>
                         <p>
-                            <strong className="fw-medium">+49 0151567845</strong>
+                            <strong className="fw-medium">+49 01536556465154515</strong>
                         </p>
 
                         <ul className="social-links list-unstyled d-flex flex-wrap mb-0">
