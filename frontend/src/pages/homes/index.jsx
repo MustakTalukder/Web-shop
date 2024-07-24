@@ -1,5 +1,8 @@
 import Header1 from "@/components/headers/Header1";
-import Home from "@/components/homes/Home";
+
+
+import Products2 from "@/components/homes/Products2";
+
 import Footers from "@/components/footers/Footers";
 import MetaComponent from "@/components/common/MetaComponent";
 import ProductList from "@/data/productList";
@@ -14,8 +17,11 @@ export default function HomePage() {
       <Header1 />
       <main className="page-wrapper">
         <div className="mb-4 pb-4"></div>
-        <Home />
-        <ProductList />
+      
+        <Products2 />
+        
+        {/* <Home /> */}
+        {/* <ProductList /> */}
         <Footers />
       </main>
     </>
