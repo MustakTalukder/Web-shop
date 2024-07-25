@@ -30,7 +30,7 @@ class Command(BaseCommand):
             subcategory = random.choice(subcategories)
             product_name = fake.catch_phrase()
             description = fake.text()
-            price = round(random.uniform(10.0, 1000.0), 2)
+            price = round(random.uniform(10.0, 1000.0), 2) # Should not Put 3 in place 2.
             quantity = random.randint(1, 100)
             rating = random.randint(1, 5)
             
