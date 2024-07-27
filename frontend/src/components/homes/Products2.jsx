@@ -59,9 +59,8 @@ export default function Products2() {
             role="presentation"
           >
             <a
-              className={`nav-link nav-link_underscore ${
-                currentCategory === elm ? "active" : ""
-              }`}
+              className={`nav-link nav-link_underscore ${currentCategory === elm ? "active" : ""
+                }`}
             >
               {elm}
             </a>
@@ -93,7 +92,7 @@ export default function Products2() {
                       {elm.picture2 && (
                         <img
                           loading="lazy"
-                          src={elm.picture2}
+                          src={`http://localhost:8000${elm.picture2}`}
                           width="330"
                           height="400"
                           className="pc__img pc__img-second"
@@ -134,9 +133,8 @@ export default function Products2() {
                     </div>
 
                     <button
-                      className={`pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist ${
-                        isAddedtoWishlist(elm.id) ? "active" : ""
-                      }`}
+                      className={`pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist ${isAddedtoWishlist(elm.id) ? "active" : ""
+                        }`}
                       title="Add To Wishlist"
                       onClick={() => toggleWishlist(elm.id)}
                     >
