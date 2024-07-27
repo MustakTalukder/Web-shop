@@ -8,10 +8,12 @@ import "tippy.js/dist/tippy.css";
 import Context from "@/context/Context";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import CartDrawer from "./components/shopCartandCheckout/CartDrawer";
 
 import HomePage from "./pages/homes";
 import NotFound from "./pages/not-found";
 import AboutPage from "./pages/otherPages/about";
+import ShopCartPage from "./pages/shop-cart-checkout/shop_cart";
 
 function App() {
   useEffect(() => {
@@ -28,13 +30,16 @@ function App() {
       <Context>
         <Routes>
           <Route path="/">
-            <Route index  element={<HomePage />} />
+            <Route index element={<HomePage />} />
             <Route path="home" element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="8" element={<NotFound />} />
+            <Route path="shop_cart" element={<ShopCartPage />} />
           </Route>
         </Routes>
+        <CartDrawer />
       </Context>
+
       <div className="page-overlay" id="pageOverlay"></div>
 
     </>
