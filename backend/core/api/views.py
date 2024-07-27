@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.models import Q
-from core.models import Product
-from .serializer import ProductSerializer
+from core.models import Product,Category,Subcategory
+from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer
 
 @api_view(['GET'])
 def ShowAll(request):
@@ -57,4 +57,11 @@ def SearchProduct(request):
 
     products = Product.objects.filter(filters)
     serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def ShowAllCategoriesAndSubcategories(request):
+    categories = Category.objects.prefetch_related('subcategories').all()
+    serializer = CategoryWithSubcategoriesSerializer(categories, many=True)
     return Response(serializer.data)
