@@ -2,6 +2,32 @@ from django.core.management.base import BaseCommand
 from core.models import Category, Subcategory, Product
 from faker import Faker
 import random
+import os
+
+
+chair_folder_path = "Categories/Chairs/" 
+table_folder_path = "Categories/Tables/"
+laptop_folder_path = "Categories/Laptops/"
+tv_folder_path = "Categories/TVs/"
+
+def choose_random_image(folder_path):
+    # List all files and directories in the specified folder
+    all_files = os.listdir(folder_path)
+    
+    # Filter out directories, keeping only files
+    files = [f for f in all_files if os.path.isfile(os.path.join(folder_path, f))]
+    
+    # Check if there are any files
+    if not files:
+        raise ValueError("No files found in the specified folder")
+    
+    # Choose a random file
+    random_file = random.choice(files)
+    
+    return random_file
+
+
+
 
 class Command(BaseCommand):
     help = 'Populate the database with sample data'
@@ -33,11 +59,37 @@ class Command(BaseCommand):
             price = round(random.uniform(10.0, 1000.0), 2) # Should not Put 3 in place 2.
             quantity = random.randint(1, 100)
             rating = random.randint(1, 5)
+            print(subcategory.name)
+
+            if subcategory.name == 'Chairs':
+                print('Chair Items')
+                picture1 = choose_random_image(chair_folder_path)
+                picture2 = choose_random_image(chair_folder_path)
+                picture3 = choose_random_image(chair_folder_path)
+            elif subcategory.name == 'Tables':
+                print('Table Items')
+                picture1 = choose_random_image(table_folder_path)
+                picture2 = choose_random_image(table_folder_path)
+                picture3 = choose_random_image(table_folder_path)
+            elif subcategory.name == 'Laptops':
+                print('Laptop Items')
+                picture1 = choose_random_image(laptop_folder_path)
+                picture2 = choose_random_image(laptop_folder_path)
+                picture3 = choose_random_image(laptop_folder_path)
+            elif subcategory.name == 'TVs':
+                print('TV Items')
+                picture1 = choose_random_image(tv_folder_path)
+                picture2 = choose_random_image(tv_folder_path)
+                picture3 = choose_random_image(tv_folder_path)
+
             
             Product.objects.create(
                 category=category,
                 subcategory=subcategory,
                 name=product_name,
+                picture1 = picture1,
+                picture2 = picture2,
+                picture3 = picture3,
                 description=description,
                 price=price,
                 quantity=quantity,

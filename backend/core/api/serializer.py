@@ -5,15 +5,22 @@ from core.models import Product,Category, Subcategory
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = [
+            'id', 'name',
+            'picture1', 'picture2', 'picture3',
+            'description','price',
+            'quantity', 'rating',
+            'created_at','updated_at',
+            'category', 'subcategory'
+        ]#'__all__'
 
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
-        fields = '__all__'
+        fields = ['id', 'name'] #'__all__'
 
 class CategoryWithSubcategoriesSerializer(serializers.ModelSerializer):
     subcategories = SubcategorySerializer(many=True, read_only=True)
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'name'] #'__all__'
