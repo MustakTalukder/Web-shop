@@ -5,10 +5,7 @@ import random
 import os
 
 
-chair_folder_path = "Categories/Chairs/" 
-table_folder_path = "Categories/Tables/"
-laptop_folder_path = "Categories/Laptops/"
-tv_folder_path = "Categories/TVs/"
+folder_path = "Categories/"
 
 def choose_random_image(folder_path):
     # List all files and directories in the specified folder
@@ -61,26 +58,9 @@ class Command(BaseCommand):
             rating = random.randint(1, 5)
             print(subcategory.name)
 
-            if subcategory.name == 'Chairs':
-                print('Chair Items')
-                picture1 = choose_random_image(chair_folder_path)
-                picture2 = choose_random_image(chair_folder_path)
-                picture3 = choose_random_image(chair_folder_path)
-            elif subcategory.name == 'Tables':
-                print('Table Items')
-                picture1 = choose_random_image(table_folder_path)
-                picture2 = choose_random_image(table_folder_path)
-                picture3 = choose_random_image(table_folder_path)
-            elif subcategory.name == 'Laptops':
-                print('Laptop Items')
-                picture1 = choose_random_image(laptop_folder_path)
-                picture2 = choose_random_image(laptop_folder_path)
-                picture3 = choose_random_image(laptop_folder_path)
-            elif subcategory.name == 'TVs':
-                print('TV Items')
-                picture1 = choose_random_image(tv_folder_path)
-                picture2 = choose_random_image(tv_folder_path)
-                picture3 = choose_random_image(tv_folder_path)
+            picture1 = choose_random_image(folder_path)
+            picture2 = choose_random_image(folder_path)
+            picture3 = choose_random_image(folder_path)
 
             
             Product.objects.create(
