@@ -9,7 +9,7 @@ import Context from "@/context/Context";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import CartDrawer from "./components/shopCartandCheckout/CartDrawer";
-
+import MobileHeader from "./components/headers/MobileHeader";
 import HomePage from "./pages/homes";
 import NotFound from "./pages/not-found";
 import AboutPage from "./pages/otherPages/about";
@@ -28,6 +28,7 @@ function App() {
     <>
       <Svgs />
       <Context>
+      <MobileHeader />
         <Routes>
           <Route path="/">
             <Route index element={<HomePage />} />
