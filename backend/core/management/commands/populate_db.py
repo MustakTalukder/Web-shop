@@ -5,23 +5,6 @@ import random
 import os
 
 
-folder_path = "Categories/"
-
-def choose_random_image(folder_path):
-    # List all files and directories in the specified folder
-    all_files = os.listdir(folder_path)
-    
-    # Filter out directories, keeping only files
-    files = [f for f in all_files if os.path.isfile(os.path.join(folder_path, f))]
-    
-    # Check if there are any files
-    if not files:
-        raise ValueError("No files found in the specified folder")
-    
-    # Choose a random file
-    random_file = random.choice(files)
-    
-    return random_file
 
 
 
@@ -58,18 +41,13 @@ class Command(BaseCommand):
             rating = random.randint(1, 5)
             print(subcategory.name)
 
-            picture1 = choose_random_image(folder_path)
-            picture2 = choose_random_image(folder_path)
-            picture3 = choose_random_image(folder_path)
+            
 
             
             Product.objects.create(
                 category=category,
                 subcategory=subcategory,
                 name=product_name,
-                picture1 = picture1,
-                picture2 = picture2,
-                picture3 = picture3,
                 description=description,
                 price=price,
                 quantity=quantity,
