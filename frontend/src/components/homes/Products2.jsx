@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Star from "@/components/common/Star";
 import { useContextElement } from "@/context/Context";
+import Loading from "../common/Loading";
 
 const filterCategories = ["All", "Category1", "Category2"]; // Add actual categories if you have
 
@@ -41,7 +42,7 @@ export default function Products2() {
     }
   }, [currentCategory, products]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading/>;
   if (error) return <p>Error loading products.</p>;
 
   return (
