@@ -40,6 +40,7 @@ class Command(BaseCommand):
             quantity = random.randint(1, 100)
             rating = random.randint(1, 5)
             print(subcategory.name)
+            print(created)
 
             
 

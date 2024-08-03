@@ -36,9 +36,9 @@ class Product(models.Model):
     subcategory = models.ForeignKey(
         Subcategory, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=False, blank=False)
-    picture1 = models.ImageField(upload_to='products/', null=True, blank=True, default='products/img-5.png')
-    picture2 = models.ImageField(upload_to='products/', null=True, blank=True, default='products/img-5.png')
-    picture3 = models.ImageField(upload_to='products/', null=True, blank=True, default='products/img-5.png')
+    picture1 = models.ImageField(upload_to='products/', null=True, blank=True, default='products/default-img.png')
+    picture2 = models.ImageField(upload_to='products/', null=True, blank=True, default='products/default-img.png')
+    picture3 = models.ImageField(upload_to='products/', null=True, blank=True, default='products/default-img.png')
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
