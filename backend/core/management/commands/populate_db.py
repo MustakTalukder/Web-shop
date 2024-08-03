@@ -7,14 +7,14 @@ import os
 
 
 
-
-
 class Command(BaseCommand):
     help = 'Populate the database with sample data'
 
     def handle(self, *args, **kwargs):
         # Initialize Faker
         fake = Faker()
+
+    
         
         # Create categories if they don't exist
         category1, created = Category.objects.get_or_create(name='Furniture', defaults={'description': 'All kinds of furniture'})
