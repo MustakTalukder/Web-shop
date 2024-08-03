@@ -47,4 +47,4 @@ backend/core/migrations/
 backend/core/__pycache__/
 backend/server/migrations/
 backend/server/__pycache__/
-backend/media/
+#backend/media/
