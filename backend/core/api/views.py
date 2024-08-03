@@ -41,24 +41,23 @@ def deleteProduct(request, pk):
 @api_view(['GET'])
 def SearchProduct(request):
     query = request.GET.get('search', '')
-    category = request.GET.get('category', '')
+    categories = request.GET.get('category', '').split(',')  # Split category by comma
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
 
     filters = Q()
     if query:
         filters &= Q(name__icontains=query) | Q(description__icontains=query)
-    if category:
-        filters &= Q(category__name__icontains=category) | Q(subcategory__name__icontains=category)
+    if categories and categories[0]:  # Ensure categories list is not empty
+        filters &= Q(category__name__in=categories) | Q(subcategory__name__in=categories)
     if min_price:
         filters &= Q(price__gte=min_price)
     if max_price:
         filters &= Q(price__lte=max_price)
 
-    products = Product.objects.filter(filters)
+    products = Product.objects.filter(filters).distinct()
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
-
 
 @api_view(['GET'])
 def ShowAllCategoriesAndSubcategories(request):

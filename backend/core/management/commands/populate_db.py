@@ -19,6 +19,7 @@ class Command(BaseCommand):
         # Create categories if they don't exist
         category1, created = Category.objects.get_or_create(name='Furniture', defaults={'description': 'All kinds of furniture'})
         category2, created = Category.objects.get_or_create(name='Electronics', defaults={'description': 'Electronic items'})
+        category2, created = Category.objects.get_or_create(name='Dress', defaults={'description': 'Electronic items'})
         
         # Create subcategories if they don't exist
         subcategory1, created = Subcategory.objects.get_or_create(name='Chairs', category=category1, defaults={'description': 'Various types of chairs'})
@@ -39,8 +40,8 @@ class Command(BaseCommand):
             price = round(random.uniform(10.0, 1000.0), 2) # Should not Put 3 in place 2.
             quantity = random.randint(1, 100)
             rating = random.randint(1, 5)
-            print(subcategory.name)
-            print(created)
+            #print(subcategory.name)
+            #print(created)
 
             
 
