@@ -188,6 +188,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "@/components/common/Loading";
 
 export default function Nav() {
   const { pathname } = useLocation();
@@ -248,7 +249,7 @@ export default function Nav() {
     });
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return '';
   if (error) return <p>Error loading categories.</p>;
 
   return (

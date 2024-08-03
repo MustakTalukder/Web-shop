@@ -5,7 +5,6 @@ import Products2 from "@/components/homes/Products2";
 
 import Footers from "@/components/footers/Footers";
 import MetaComponent from "@/components/common/MetaComponent";
-import ProductList from "@/data/productList";
 const metadata = {
   title: "Home",
   description: "Home Page",
