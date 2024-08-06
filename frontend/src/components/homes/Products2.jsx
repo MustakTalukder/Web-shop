@@ -119,7 +119,7 @@ export default function Products2() {
                   <div className="pc__info position-relative">
                     <p className="pc__category">{elm.category}</p>
                     <h6 className="pc__title">
-                      <Link to={`/product1_simple/${elm.id}`}>{elm.name}</Link>
+                    <Link to={`/product/${elm.id}`}>{elm.name}</Link>
                     </h6>
                     <div className="product-card__price d-flex">
                       <span className="money price">${elm.price}</span>

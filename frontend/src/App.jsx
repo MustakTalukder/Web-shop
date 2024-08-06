@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unknown-property */
 import Svgs from "@/components/common/Svgs";
+import ShopSingle from "./pages/shopSingle";
 import "react-tooltip/dist/react-tooltip.css";
 import "./styles/style.scss";
 import "rc-slider/assets/index.css";
@@ -14,7 +15,7 @@ import HomePage from "./pages/homes";
 import NotFound from "./pages/not-found";
 import AboutPage from "./pages/otherPages/about";
 import ShopCartPage from "./pages/shop-cart-checkout/shop_cart";
-
+import ShopPage2 from "./pages/shoplist/shop-2";
 function App() {
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -36,6 +37,8 @@ function App() {
             <Route path="about" element={<AboutPage />} />
             <Route path="8" element={<NotFound />} />
             <Route path="shop_cart" element={<ShopCartPage />} />
+            <Route path="product/:id" element={<ShopSingle />} />
+            <Route path="shop-2/:name" element={<ShopPage2 />} />
           </Route>
         </Routes>
         <CartDrawer />
@@ -48,3 +51,4 @@ function App() {
 }
 
 export default App;
+
