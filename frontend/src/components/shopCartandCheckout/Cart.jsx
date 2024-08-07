@@ -55,7 +55,7 @@ export default function Cart() {
                       <div className="shopping-cart__product-item">
                         <img
                           loading="lazy"
-                          src={elm.imgSrc}
+                          src={`http://localhost:8000${elm.picture1}`}
                           width="120"
                           height="120"
                           alt="image"
@@ -66,8 +66,7 @@ export default function Cart() {
                       <div className="shopping-cart__product-item__detail">
                         <h4>{elm.title}</h4>
                         <ul className="shopping-cart__product-item__options">
-                          <li>Color: Yellow</li>
-                          <li>Size: L</li>
+                          <li>Name: {elm.name}</li>
                         </ul>
                       </div>
                     </td>
@@ -133,12 +132,6 @@ export default function Cart() {
                 onSubmit={(e) => e.preventDefault()}
                 className="position-relative bg-body"
               >
-                <input
-                  className="form-control"
-                  type="text"
-                  name="coupon_code"
-                  placeholder="Coupon Code"
-                />
                 <input
                   className="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
                   type="submit"
@@ -242,7 +235,7 @@ export default function Cart() {
             <div className="mobile_fixed-btn_wrapper">
               <div className="button-wrapper container">
                 <button className="btn btn-primary btn-checkout">
-                  PROCEED TO CHECKOUT
+                  <Link to={"/shop_checkout"} style={{ color: 'white' }}>NEXT</Link>
                 </button>
               </div>
             </div>
