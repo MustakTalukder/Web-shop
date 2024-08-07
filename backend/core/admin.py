@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.urls import path
 from django.http import JsonResponse
-from .models import Product, Category, Subcategory
+from .models import Product, Category, Subcategory, OrderItem, Order
 
 
 class ProductAdminForm(forms.ModelForm):
@@ -47,3 +47,5 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Subcategory)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Order)
+admin.site.register(OrderItem)

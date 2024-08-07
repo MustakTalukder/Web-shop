@@ -6,6 +6,9 @@ from django.db.models import Q
 from core.models import Product,Category,Subcategory
 from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer, OrderSerializer
 
+import json
+from rest_framework.parsers import JSONParser
+
 @api_view(['GET'])
 def ShowAll(request):
     products = Product.objects.all()
@@ -67,12 +70,38 @@ def ShowAllCategoriesAndSubcategories(request):
     return Response(serializer.data)
 
 
-
+'''
 @api_view(['POST'])
 def create_order(request):
+    print('*'*10)
+    print("Request data:", request.data)
+    print('*'*10) 
+
     if request.method == 'POST':
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("Serializer errors:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
+
+@api_view(['POST'])
+def create_order(request):
+    try:
+        data = JSONParser().parse(request)
+        print('*' * 10)
+        print("Request data:", json.dumps(data, indent=4))
+        print('*' * 10)
+
+        serializer = OrderSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print("Serializer errors:", json.dumps(serializer.errors, indent=4))
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        print("Exception:", str(e))
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
