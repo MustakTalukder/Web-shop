@@ -1,16 +1,12 @@
-import MetaComponent from "@/components/common/MetaComponent";
+
 import Footer1 from "@/components/footers/Footers";
 import Header1 from "@/components/headers/Header1";
 import Cart from "@/components/shopCartandCheckout/Cart";
 import ChectoutSteps from "@/components/shopCartandCheckout/ChectoutSteps";
-const metadata = {
-    title: "Shop Cart",
-    description: "Web Shop Cart",
-};
+
 export default function ShopCartPage() {
     return (
         <>
-            <MetaComponent meta={metadata} />
             <Header1 />
             <main className="page-wrapper">
                 <div className="mb-4 pb-4"></div>

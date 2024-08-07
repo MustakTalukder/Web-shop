@@ -6,6 +6,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include("core.api.urls")),
+    path('payments/', include('payments.urls')),
 ]
 
 if settings.DEBUG:  # Serve media files only in development

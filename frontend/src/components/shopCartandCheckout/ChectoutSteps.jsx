@@ -19,8 +19,15 @@ const steps = [
   },
   {
     id: 3,
-    href: "/shop_order_complete",
+    href: "/payment",
     number: "03",
+    title: "Payment",
+    description: "Checkout Your Items List",
+  },
+  {
+    id: 4,
+    href: "/shop_order_complete",
+    number: "04",
     title: "Confirmation",
     description: "Review And Submit Your Order",
   },

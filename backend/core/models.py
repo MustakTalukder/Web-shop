@@ -1,5 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.utils import timezone
+from model_utils import FieldTracker
 # Create your models here.
 
 
@@ -48,3 +50,72 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+# Order Table
+
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+    id = models.BigAutoField(primary_key=True)
+    email = models.EmailField(max_length=254)
+    order_id = models.CharField(max_length=100, unique=True, editable=False)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_intent_id = models.CharField(max_length=200, blank=True, null=True)
+    invoice_pdf = models.BinaryField(blank=True, null=True)
+    address = models.TextField(blank=True)
+    description = models.TextField(blank=True)
+    user_fname = models.TextField(blank=True)
+    user_lname = models.TextField(blank=True)
+
+
+    tracker = FieldTracker(fields=['status'])
+
+    def save(self, *args, **kwargs):
+        if not self.order_id:
+            self.order_id = self.generate_order_id()
+        if self.tracker.has_changed('status') and self.status == 'completed':
+            self.generate_invoice_pdf()
+        super().save(*args, **kwargs)
+
+    def generate_order_id(self):
+        return f'ORD-{timezone.now().strftime("%Y%m%d%H%M%S")}'
+
+    def generate_invoice_pdf(self):
+        from reportlab.lib.pagesizes import letter
+        from reportlab.pdfgen import canvas
+        from io import BytesIO
+
+        buffer = BytesIO()
+        p = canvas.Canvas(buffer, pagesize=letter)
+        p.drawString(100, 750, f"Order ID: {self.order_id}")
+        p.drawString(100, 730, f"Email: {self.email}")
+        p.drawString(100, 710, f"Total Amount: ${self.total_amount}")
+        p.drawString(100, 690, f"Status: {self.status}")
+        p.showPage()
+        p.save()
+        
+        self.invoice_pdf = buffer.getvalue()
+        buffer.close()
+
+    def __str__(self):
+        return self.order_id
+
+class OrderItem(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product_name = models.CharField(max_length=200)
+    product_id = models.CharField(max_length=100)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.quantity} x {self.product_name}'

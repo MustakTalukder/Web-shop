@@ -15,6 +15,9 @@ import HomePage from "./pages/homes";
 import NotFound from "./pages/not-found";
 import AboutPage from "./pages/otherPages/about";
 import ShopCartPage from "./pages/shop-cart-checkout/shop_cart";
+import ShopCheckoutPage from "./pages/shop-cart-checkout/check_out";
+import ShopOrderConplate from "./pages/shop-cart-checkout/shop_order_complate";
+import PaymentApp from "./components/shopCartandCheckout/PaymentApp";
 
 function App() {
   useEffect(() => {
@@ -37,6 +40,9 @@ function App() {
             <Route path="about" element={<AboutPage />} />
             <Route path="8" element={<NotFound />} />
             <Route path="shop_cart" element={<ShopCartPage />} />
+            <Route path="shop_checkout" element={<ShopCheckoutPage />} />
+            <Route path="shop_order_complete" element={<ShopOrderConplate />} />
+            <Route path="payment" element={<PaymentApp />} />
             <Route path="product/:id" element={<ShopSingle />} />
           </Route>
         </Routes>
