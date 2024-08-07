@@ -108,7 +108,7 @@ export default function Checkout() {
                   {cartProducts.map((elm, i) => (
                     <tr key={i}>
                       <td>
-                        {elm.title} x {elm.quantity}
+                        {elm.name} x {elm.quantity}
                       </td>
                       <td>${elm.price * elm.quantity}</td>
                     </tr>
@@ -169,7 +169,7 @@ export default function Checkout() {
               </div>
             </div>
             <button className="btn btn-primary btn-checkout">
-              PLACE ORDER
+              <Link to="/payment" style={{ color: 'white' }}>NEXT</Link>
             </button>
           </div>
         </div>

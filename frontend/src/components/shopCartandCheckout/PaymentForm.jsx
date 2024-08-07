@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useContextElement } from "@/context/Context";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import '../../styles/paymentForm.css';
+import { Link } from "react-router-dom";
 
 const PaymentForm = () => {
   const { cartProducts,totalPrice, billingDetails } = useContextElement();
@@ -13,6 +14,7 @@ const PaymentForm = () => {
   const [processing, setProcessing] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState('');
+  const [paymentDetails, setPaymentDetails] = useState('');
 
   
   const createPaymentIntent = async () => {
@@ -35,6 +37,8 @@ const PaymentForm = () => {
       }
       const data = await response.json();
       setClientSecret(data.clientSecret);
+      setPaymentDetails(data.details);
+      
     } catch (error) {
       setError('Failed to create payment intent');
     }
@@ -76,14 +80,30 @@ const PaymentForm = () => {
       setSucceeded(true);
       console.log("===payment Details after success==");
       console.log(payload);
+      console.log("==payment Details from strip===");
+      console.log(paymentDetails);
       
+      const orderDetails = {
+        paymentId: paymentDetails.id,
+        totalPrice: totalPrice,
+        address: billingDetails.address,
+        email: billingDetails.email,
+        firstName: billingDetails.firstName,
+        description: billingDetails.orderNotes,
+        orderedItem: cartProducts
+      }
+      console.log("orderDetails====");
+      console.log(orderDetails);
       
       //window.location.href = "http://localhost:3000/shop_order_complete";
     }
   };
 
   return (
+
     <div className="payment-card">
+    <img src={`https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg`} alt="Stripe Logo" className="stripe-logo" />
+    <p><Link to="/shop_checkout"><u>Back To Shopping Cart</u></Link></p>
     <form id="payment-form" onSubmit={handleSubmit}>
       <CardElement id="card-element" onChange={handleChange} />
       <button disabled={processing || disabled || succeeded} id="submit">
@@ -107,6 +127,7 @@ const PaymentForm = () => {
       )}
     </form>
     </div>
+    
   );
 };
 

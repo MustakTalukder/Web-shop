@@ -14,7 +14,7 @@ export default function Context({ children }) {
   const [quickViewItem, setQuickViewItem] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [billingDetails, setBillingDetails] = useState({
-    firstName: 'Mustak',
+    firstName: '',
     lastName: '',
     address: '',
     email: '',
