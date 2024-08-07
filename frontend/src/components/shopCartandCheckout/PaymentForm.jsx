@@ -89,6 +89,7 @@ const PaymentForm = () => {
         address: billingDetails.address,
         email: billingDetails.email,
         firstName: billingDetails.firstName,
+        lastName: billingDetails.lastName,
         description: billingDetails.orderNotes,
         orderedItem: cartProducts
       }
@@ -99,7 +100,7 @@ const PaymentForm = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: orderDetails, // amount in cents
+        body: JSON.stringify(orderDetails), // amount in cents
       });
       console.log("Response ==");
       console.log(response);
