@@ -94,6 +94,17 @@ const PaymentForm = () => {
       }
       console.log("orderDetails====");
       console.log(orderDetails);
+      const response = await fetch('http://127.0.0.1:8000/api/orders/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: orderDetails, // amount in cents
+      });
+      console.log("Response ==");
+      console.log(response);
+      
+      
       
       //window.location.href = "http://localhost:3000/shop_order_complete";
     }
