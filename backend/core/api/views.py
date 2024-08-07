@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 from django.db.models import Q
 from core.models import Product,Category,Subcategory
-from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer
+from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer, OrderSerializer
 
 @api_view(['GET'])
 def ShowAll(request):
@@ -64,3 +65,14 @@ def ShowAllCategoriesAndSubcategories(request):
     categories = Category.objects.prefetch_related('subcategories').all()
     serializer = CategoryWithSubcategoriesSerializer(categories, many=True)
     return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+def create_order(request):
+    if request.method == 'POST':
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

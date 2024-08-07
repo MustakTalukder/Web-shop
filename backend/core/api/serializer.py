@@ -1,6 +1,8 @@
 from rest_framework import serializers
+from payments.api.serializer import PaymentSerializer
 
-from core.models import Product,Category, Subcategory
+from core.models import Product,Category, Subcategory, Order, OrderItem
+from payments.models import Payment
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +19,28 @@ class CategoryWithSubcategoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ['product_name', 'product_id', 'quantity', 'price']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True)
+    payment = PaymentSerializer()
+
+    class Meta:
+        model = Order
+        fields = ['email', 'total_amount', 'address', 'description', 'user_fname', 
+                  'user_lname', 'items', 'payment']
+
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+        payment_data = validated_data.pop('payment')
+        order = Order.objects.create(**validated_data)
+        for item_data in items_data:
+            OrderItem.objects.create(order=order, **item_data)
+        Payment.objects.create(**payment_data)
+        return order
