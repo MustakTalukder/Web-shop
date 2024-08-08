@@ -50,10 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'anymail',
     'core.apps.CoreConfig',
-    'payments.apps.PaymentsConfig'
-    'payments',
-    'anymail'
+    'payments.apps.PaymentsConfig',
 
 ]
 
