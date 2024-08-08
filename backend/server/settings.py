@@ -132,8 +132,14 @@ ANYMAIL = {
     'MAILGUN_SENDER_DOMAIN': 'sandboxd2fabadd0a564567a636b5f6d8f04a52.mailgun.org',  # e.g., 'mg.yourdomain.com'
 }
 
-EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
-DEFAULT_FROM_EMAIL = 'you@yourdomain.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'webshop408@gmail.com'
+EMAIL_HOST_PASSWORD = 'cljgwnjgdjxpvxyt'
+DEFAULT_FROM_EMAIL = 'webshop408@gmail.com'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

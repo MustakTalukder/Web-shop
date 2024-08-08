@@ -95,24 +95,52 @@ const PaymentForm = () => {
       }
       console.log("orderDetails====");
       console.log(orderDetails);
-      const response = await fetch('http://127.0.0.1:8000/api/orders/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderDetails), // amount in cents
-      });
-      console.log("Response ==");
-      console.log(response);
 
-      
-      // Parse the JSON response
-      const responseData = await response.json();
-      console.log("Response Data ==", responseData);
+      try {
+        // Step 1: Create order
+        const response = await fetch('http://127.0.0.1:8000/api/orders/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderDetails),
+        });
+        
+        // Step 2: Parse the JSON response
+        const responseData = await response.json();
+        console.log("Response Data ==", responseData);
 
-      // Read order_id from the response data
-      const orderId = responseData.order_id;
-      console.log("Order ID =", orderId);
+        // Step 3: Extract order_id and userEmail from response data
+        const orderId = responseData.order_id;
+        const userEmail = billingDetails.email;
+        console.log("Order ID =", orderId);
+        console.log("Order Email =", userEmail);
+
+        // Step 4: Send email
+        const sendMail = async (email, orderId) => {
+          try {
+            const mailResponse = await fetch(`http://127.0.0.1:8000/api/send-mail/?email=${email}&order_id=${orderId}`, {
+              method: 'GET',
+            });
+
+            if (!mailResponse.ok) {
+              throw new Error('Network response was not ok');
+            }
+
+            const data = await mailResponse.json();
+            console.log("Mail Response Data =", data);
+          } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+          }
+        };
+
+        // Call sendMail function
+        await sendMail(userEmail, orderId);
+
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    
       
       //window.location.href = "http://localhost:3000/shop_order_complete";
     }

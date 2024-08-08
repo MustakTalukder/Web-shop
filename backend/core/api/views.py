@@ -5,15 +5,14 @@ from rest_framework import status
 from django.db.models import Q
 from core.models import Product,Category,Subcategory
 from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer, OrderSerializer
-
+from django.core.mail import send_mail
 import json
 from rest_framework.parsers import JSONParser
-
+from django.conf import settings
 
 
 from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer
 from django.core.mail import send_mail
-import requests
 import logging
 
 logger = logging.getLogger(__name__)
@@ -21,28 +20,20 @@ logger = logging.getLogger(__name__)
 
 @api_view(['GET'])
 def SendMail(request):
-    try:
-        mailgun_response = requests.post(
-            "https://api.mailgun.net/v3/sandboxd2fabadd0a564567a636b5f6d8f04a52.mailgun.org/messages",
-            auth=("api", "de788b2cac0b793e6bdaecf9ab0ecfa5-a26b1841-af21c416"),
-            data={
-                "from": "Excited User <mailgun@sandboxd2fabadd0a564567a636b5f6d8f04a52.mailgun.org>",
-                "to": ["mustak.prodev@gmail.com"],
-                "subject": "Hello WEBSHOP",
-                "text": "Testing some Mailgun awesomeness!"
-            }
-        )
-
-        if mailgun_response.status_code == 200:
-            logger.info("Email sent successfully!")
-            return Response({"message": "Email sent successfully!"}, status=200)
-        else:
-            logger.error(f"Failed to send email: {mailgun_response.json()}")
-            return Response({"error": "Failed to send email", "details": mailgun_response.json()}, status=mailgun_response.status_code)
-    except Exception as e:
-        logger.exception("An error occurred while sending email")
-        return Response({"error": "An error occurred while sending email", "details": str(e)}, status=500)
-
+    email = request.query_params.get('email')
+    order_id = request.query_params.get('order_id')
+    
+    if not email or not order_id:
+        return Response('Missing email or order_id parameter', status=400)
+    
+    subject = 'Webshop Order'
+    message = 'Here is the message for order id {order_id}.'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    
+    send_mail(subject, message, email_from, recipient_list)
+    
+    return Response('Email sent successfully')
 
 @api_view(['GET'])
 def ShowAll(request):
