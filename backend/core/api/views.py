@@ -1,8 +1,16 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 from django.db.models import Q
 from core.models import Product,Category,Subcategory
+from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer, OrderSerializer
+
+import json
+from rest_framework.parsers import JSONParser
+
+
+
 from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer
 from django.core.mail import send_mail
 import requests
@@ -95,3 +103,44 @@ def ShowAllCategoriesAndSubcategories(request):
     categories = Category.objects.prefetch_related('subcategories').all()
     serializer = CategoryWithSubcategoriesSerializer(categories, many=True)
     return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+def create_order(request):
+    try:
+        data = JSONParser().parse(request)
+        mapped_data = {
+            "email": data["email"],
+            "total_amount": data["totalPrice"],
+            "address": data["address"],
+            "description": data.get("description", ""),
+            "user_fname": data["firstName"],
+            "user_lname": data["lastName"],
+            "items": [
+                {
+                    "product_name": item["name"],
+                    "product_id": str(item["id"]),
+                    "quantity": item["quantity"],
+                    "price": item["price"]
+                }
+                for item in data["orderedItem"]
+            ],
+            "payment": {
+                "stripe_payment_id": data["paymentId"],
+                "amount": data["totalPrice"],
+                "status": "Done",
+                "success": True  # Assuming success is True for this example
+            }
+        }
+
+        serializer = OrderSerializer(data=mapped_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print("Serializer errors:", json.dumps(serializer.errors, indent=4))
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        print("Exception:", str(e))
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
