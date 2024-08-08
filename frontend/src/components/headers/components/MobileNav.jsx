@@ -11,13 +11,14 @@ export default function MobileNav() {
   const isMenuActive = (menu) => {
     return menu.split("/")[1] === pathname.split("/")[1];
   };
-
+  console.log("Process===");
+  console.log(import.meta.env.VITE_API_URL);
+  
+  
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/show-all-categories-and-subcategories/"
-        );
+        const response = await axios.get(import.meta.env.VITE_API_URL+"/api/show-all-categories-and-subcategories/");
         setCategories(response.data);
         setLoading(false);
       } catch (error) {

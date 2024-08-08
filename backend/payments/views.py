@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 import stripe
 import json
 
-stripe.api_key = 'sk_test_51PkkJk2N4Khf47fpICZEks2hJnjxSKAPBA057wIO0kf5KlwqoknB5HFpQMKVP7SA1s3gSJfqHWocFNb9G9A3idLd00a9buZAlM'
+stripe.api_key = settings.STRIPE_SK_KEY
 @csrf_exempt
 @require_POST
 def create_payment_intent(request):

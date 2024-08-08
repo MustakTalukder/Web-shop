@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 def SendMail(request):
     email = request.query_params.get('email')
     order_id = request.query_params.get('order_id')
-    
     if not email or not order_id:
         return Response('Missing email or order_id parameter', status=400)
     

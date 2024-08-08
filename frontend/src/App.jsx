@@ -19,6 +19,7 @@ import ShopCheckoutPage from "./pages/shop-cart-checkout/check_out";
 import ShopOrderConplate from "./pages/shop-cart-checkout/shop_order_complate";
 import PaymentApp from "./components/shopCartandCheckout/PaymentApp";
 
+import ShopPage2 from "./pages/shoplist/shop-2";
 function App() {
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/shop_order_complete/:orderId" element={<ShopOrderConplate />} />
             <Route path="payment" element={<PaymentApp />} />
             <Route path="product/:id" element={<ShopSingle />} />
+            <Route path="shop-2/:name" element={<ShopPage2 />} />
           </Route>
         </Routes>
         <CartDrawer />
