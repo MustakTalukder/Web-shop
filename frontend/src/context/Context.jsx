@@ -43,7 +43,9 @@ export default function Context({ children }) {
 
   useEffect(() => {
     const subtotal = cartProducts.reduce((accumulator, product) => {
-      return accumulator + product.quantity * product.price;
+      const totalPrice = accumulator + product.quantity * product.price;
+      const formattedNumber = Number(totalPrice.toFixed(2));
+      return formattedNumber;
     }, 0);
     setTotalPrice(subtotal);
   }, [cartProducts]);
