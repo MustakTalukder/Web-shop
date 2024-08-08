@@ -137,7 +137,12 @@ def create_order(request):
         serializer = OrderSerializer(data=mapped_data)
         if serializer.is_valid():
             order = serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            response_data = {
+                "order_id":serializer.data["order_id"],
+                "response_data":serializer.data,
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
         else:
             print("Serializer errors:", json.dumps(serializer.errors, indent=4))
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

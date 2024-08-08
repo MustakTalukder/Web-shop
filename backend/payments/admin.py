@@ -8,5 +8,5 @@ class PaymentAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-#admin.site.register(models.PaymentTable, PaymentAdmin)
-admin.site.register(models.PaymentTable)
+admin.site.register(models.PaymentTable, PaymentAdmin)
+#admin.site.register(models.PaymentTable)
