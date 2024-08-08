@@ -42,10 +42,18 @@ class ProductAdmin(admin.ModelAdmin):
         subcategories = Subcategory.objects.filter(
             category_id=category_id).values('id', 'name')
         return JsonResponse({'subcategories': list(subcategories)})
+    
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 1
+
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [OrderItemInline]
 
 
 admin.site.register(Category)
 admin.site.register(Subcategory)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Order)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem)
