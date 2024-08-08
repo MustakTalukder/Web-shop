@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from model_utils import FieldTracker
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+
+#from payments.models import PaymentTable as Payment
+
 # Create your models here.
 
 
@@ -52,9 +58,6 @@ class Product(models.Model):
         return self.name
     
 
-# Order Table
-
-
 class Order(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -63,6 +66,9 @@ class Order(models.Model):
         ('cancelled', 'Cancelled'),
     ]
     id = models.BigAutoField(primary_key=True)
+    
+    user_fname = models.CharField(max_length=20, null=True, blank=True)
+    user_lname = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(max_length=254)
     order_id = models.CharField(max_length=100, unique=True, editable=False)
     created_at = models.DateTimeField(default=timezone.now)
@@ -72,14 +78,15 @@ class Order(models.Model):
     payment_intent_id = models.CharField(max_length=200, blank=True, null=True)
     invoice_pdf = models.BinaryField(blank=True, null=True)
     address = models.TextField(blank=True)
-    description = models.TextField(blank=True)
-    user_fname = models.TextField(blank=True)
-    user_lname = models.TextField(blank=True)
-
+    description = models.TextField(null=True, blank=True)
 
     tracker = FieldTracker(fields=['status'])
 
     def save(self, *args, **kwargs):
+        print('#'*12)
+        print(self.order_id)
+        print('#'*12)
+        
         if not self.order_id:
             self.order_id = self.generate_order_id()
         if self.tracker.has_changed('status') and self.status == 'completed':
@@ -90,10 +97,6 @@ class Order(models.Model):
         return f'ORD-{timezone.now().strftime("%Y%m%d%H%M%S")}'
 
     def generate_invoice_pdf(self):
-        from reportlab.lib.pagesizes import letter
-        from reportlab.pdfgen import canvas
-        from io import BytesIO
-
         buffer = BytesIO()
         p = canvas.Canvas(buffer, pagesize=letter)
         p.drawString(100, 750, f"Order ID: {self.order_id}")
@@ -108,6 +111,8 @@ class Order(models.Model):
 
     def __str__(self):
         return self.order_id
+    
+    
 
 class OrderItem(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -119,3 +124,5 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f'{self.quantity} x {self.product_name}'
+
+

@@ -9,6 +9,9 @@ from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer, 
 import json
 from rest_framework.parsers import JSONParser
 
+
+
+
 @api_view(['GET'])
 def ShowAll(request):
     products = Product.objects.all()
@@ -70,32 +73,36 @@ def ShowAllCategoriesAndSubcategories(request):
     return Response(serializer.data)
 
 
-'''
-@api_view(['POST'])
-def create_order(request):
-    print('*'*10)
-    print("Request data:", request.data)
-    print('*'*10) 
-
-    if request.method == 'POST':
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print("Serializer errors:", serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-'''
 
 @api_view(['POST'])
 def create_order(request):
     try:
         data = JSONParser().parse(request)
-        print('*' * 10)
-        print("Request data:", json.dumps(data, indent=4))
-        print('*' * 10)
+        mapped_data = {
+            "email": data["email"],
+            "total_amount": data["totalPrice"],
+            "address": data["address"],
+            "description": data.get("description", ""),
+            "user_fname": data["firstName"],
+            "user_lname": data["lastName"],
+            "items": [
+                {
+                    "product_name": item["name"],
+                    "product_id": str(item["id"]),
+                    "quantity": item["quantity"],
+                    "price": item["price"]
+                }
+                for item in data["orderedItem"]
+            ],
+            "payment": {
+                "stripe_payment_id": data["paymentId"],
+                "amount": data["totalPrice"],
+                "status": "Done",
+                "success": True  # Assuming success is True for this example
+            }
+        }
 
-        serializer = OrderSerializer(data=data)
+        serializer = OrderSerializer(data=mapped_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
