@@ -69,20 +69,29 @@ export default function Nav() {
     <>
       {categories.map((category) => (
         <li className="navigation__item" key={category.id}>
-          <a
+          {/* <a
             href="#"
             className={`navigation__link ${
               isMenuActive(category.name) ? "menu-active" : ""
             }`}
           >
             {category.name}
-          </a>
+          </a> */}
+
+          <Link
+            to={`/shop-2/${category.name}`}
+            className={`navigation__link ${
+              isMenuActive(`/category/${category.id}`) ? "menu-active" : ""
+            }`}
+          >
+            {category.name}
+          </Link>
           {category.subcategories && category.subcategories.length > 0 && (
             <ul className="default-menu list-unstyled">
               {category.subcategories.map((subcategory) => (
                 <li key={subcategory.id} className="sub-menu__item">
                   <Link
-                    to={`/subcategory/${subcategory.id}`}
+                    to={`/shop-2/${subcategory.name}`}
                     className={`menu-link menu-link_us-s ${
                       isMenuActive(`/subcategory/${subcategory.id}`)
                         ? "menu-active"
