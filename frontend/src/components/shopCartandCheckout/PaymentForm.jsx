@@ -18,26 +18,25 @@ const PaymentForm = () => {
   const navigate = useNavigate();
   
   const createPaymentIntent = async () => {
-
     try {
-      const productDetails = {
-        amount: cartProducts.price
-      }
-      
-      const response = await fetch('http://127.0.0.1:8000/payments/create-payment-intent/', {
+      const response = await fetch(import.meta.env.VITE_API_URL+'/payments/create-payment-intent/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({amount: totalPrice*100}), // amount in cents
+        body: JSON.stringify({amount: Math.round(totalPrice * 100)}), // amount in cents
       });
       if (!response.ok) {
         const message = await response.json();
         throw new Error(message.error);
       }
       const data = await response.json();
+      console.log("==Stripe SEcret==");
+      console.log(data.clientSecret);
+
       setClientSecret(data.clientSecret);
       setPaymentDetails(data.details);
+
       
     } catch (error) {
       setError('Failed to create payment intent');
@@ -45,11 +44,13 @@ const PaymentForm = () => {
   };
 
   useEffect(() => {
-    createPaymentIntent();
     console.log("cartProducts");
     console.log(cartProducts);
     console.log("===Billing DETAILS===");
     console.log(billingDetails);
+    console.log(totalPrice);
+    createPaymentIntent();
+    
   }, []);
 
   const handleChange = async (event) => {
@@ -92,7 +93,7 @@ const PaymentForm = () => {
 
       try {
         // Step 1: Create order
-        const response = await fetch('http://127.0.0.1:8000/api/orders/', {
+        const response = await fetch(import.meta.env.VITE_API_URL+'/api/orders/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -115,7 +116,7 @@ const PaymentForm = () => {
         // Step 4: Send email
         const sendMail = async (email, orderId) => {
           try {
-            const mailResponse = await fetch(`http://127.0.0.1:8000/api/send-mail/?email=${email}&order_id=${orderId}`, {
+            const mailResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/send-mail/?email=${email}&order_id=${orderId}`, {
               method: 'GET',
             });
 
@@ -137,7 +138,7 @@ const PaymentForm = () => {
         
         removeProductsByIds(allProductIds);
 
-        //await sendMail(userEmail, orderIdFromRs);
+        await sendMail(userEmail, orderIdFromRs);
         navigate(`/shop_order_complete/${orderIdFromRs}`);
 
       } catch (error) {

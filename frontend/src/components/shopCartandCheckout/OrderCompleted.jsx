@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 
 export default function OrderCompleted() {
-  const { cartProducts, totalPrice, billingDetails } = useContextElement();
+  const { cartProducts, totalPrice, billingDetails, completeCartData } = useContextElement();
   const { orderId } = useParams();
   const [showDate, setShowDate] = useState(false);
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function OrderCompleted() {
               </tr>
             </thead>
             <tbody>
-              {cartProducts.map((elm, i) => (
+              {completeCartData.map((elm, i) => (
                 <tr key={i}>
                   <td>
                     {elm.title} x {elm.quantity}

@@ -142,7 +142,7 @@ export default function Cart() {
             <div className="fs-20">Shop cart is empty</div>
 
             <button className="btn mt-3 btn-light">
-              <Link to={"/shop-1"}>Explore Products</Link>
+              <Link to={"/home"}>Explore Products</Link>
             </button>
           </>
         )}

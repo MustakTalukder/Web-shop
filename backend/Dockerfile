@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     build-essential \
     default-libmysqlclient-dev \
+    nano\
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies

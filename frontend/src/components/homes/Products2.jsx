@@ -21,7 +21,7 @@ export default function Products2() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get("http://localhost:8000/api/product-list/");
+        const response = await axios.get(import.meta.env.VITE_API_URL+"/api/product-list/");
         setProducts(response.data);
         setFiltered(response.data);
         setLoading(false);

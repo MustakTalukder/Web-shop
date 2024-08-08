@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
-
-
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,10 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zswa9ny+#3r!+va-&%&&2k8*+uf(0krn7yx%o#3w*8&p8kqi1a'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
+
 
 ALLOWED_HOSTS = ["*"]
 
@@ -126,21 +127,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Anymail settings
-ANYMAIL = {
-    'MAILGUN_API_KEY': 'de788b2cac0b793e6bdaecf9ab0ecfa5-a26b1841-af21c416',
-    'MAILGUN_SENDER_DOMAIN': 'sandboxd2fabadd0a564567a636b5f6d8f04a52.mailgun.org',  # e.g., 'mg.yourdomain.com'
-}
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'webshop408@gmail.com'
-EMAIL_HOST_PASSWORD = 'cljgwnjgdjxpvxyt'
-DEFAULT_FROM_EMAIL = 'webshop408@gmail.com'
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
+#Stripe
+STRIPE_SK_KEY = os.getenv("STRIPE_SK_KEY")
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 

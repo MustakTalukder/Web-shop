@@ -10,6 +10,7 @@ export const useContextElement = () => {
 export default function Context({ children }) {
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
+  const [completeCartData, setCompleteCartData] = useState([]);
   const [wishList, setWishList] = useState([]);
   const [quickViewItem, setQuickViewItem] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -48,11 +49,16 @@ export default function Context({ children }) {
       return formattedNumber;
     }, 0);
     setTotalPrice(subtotal);
-  }, [cartProducts]);
+  }, [completeCartData]);
 
   
   const removeProductsByIds = (ids) => {
     setCartProducts((prevProducts) => prevProducts.filter(product => !ids.includes(product.id)));
+  };
+
+  
+  const updateCompleteCartData = () => {
+    setCompleteCartData([...cartProducts]);
   };
 
   const addProductToCart = (id) => {
@@ -60,7 +66,7 @@ export default function Context({ children }) {
     if (product && !cartProducts.some((item) => item.id === id)) {
       const item = { ...product, quantity: 1 };
       setCartProducts((prev) => [...prev, item]);
-
+      updateCompleteCartData();
       document
         .getElementById("cartDrawerOverlay")
         .classList.add("page-overlay_visible");
@@ -120,7 +126,8 @@ export default function Context({ children }) {
     setQuickViewItem,
     billingDetails,
     updateBillingDetails,
-    removeProductsByIds
+    removeProductsByIds,
+    completeCartData
   };
 
   return (
