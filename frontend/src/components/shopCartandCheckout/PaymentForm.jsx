@@ -106,7 +106,13 @@ const PaymentForm = () => {
       console.log(response);
 
       
-      
+      // Parse the JSON response
+      const responseData = await response.json();
+      console.log("Response Data ==", responseData);
+
+      // Read order_id from the response data
+      const orderId = responseData.order_id;
+      console.log("Order ID =", orderId);
       
       //window.location.href = "http://localhost:3000/shop_order_complete";
     }
