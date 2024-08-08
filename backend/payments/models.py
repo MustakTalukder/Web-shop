@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from core.models import Order
 
 class PaymentTable(models.Model):
@@ -11,6 +12,17 @@ class PaymentTable(models.Model):
     success = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    transaction_id = models.CharField(max_length=100, unique=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.transaction_id:
+            self.transaction_id = self.generate_transaction_id()
+        super().save(*args, **kwargs)
+
+    def generate_transaction_id(self):
+        return f'TXN-{timezone.now().strftime("%Y%m%d%H%M%S")}'
+
 
     def __str__(self):
         try:

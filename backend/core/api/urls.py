@@ -11,5 +11,6 @@ urlpatterns = [
     path('products-search/', views.SearchProduct, name='product-search'),
     path('show-all-categories-and-subcategories/', views.ShowAllCategoriesAndSubcategories, name='show-all-categories-and-subcategories'),
     path('orders/', views.create_order, name='create_order'),
+    path('send-mail/', views.SendMail, name='send-mail')
 
 ]

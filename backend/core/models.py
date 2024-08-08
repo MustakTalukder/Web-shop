@@ -66,7 +66,6 @@ class Order(models.Model):
         ('cancelled', 'Cancelled'),
     ]
     id = models.BigAutoField(primary_key=True)
-    
     user_fname = models.CharField(max_length=20, null=True, blank=True)
     user_lname = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(max_length=254)
@@ -83,10 +82,6 @@ class Order(models.Model):
     tracker = FieldTracker(fields=['status'])
 
     def save(self, *args, **kwargs):
-        print('#'*12)
-        print(self.order_id)
-        print('#'*12)
-        
         if not self.order_id:
             self.order_id = self.generate_order_id()
         if self.tracker.has_changed('status') and self.status == 'completed':
@@ -111,6 +106,7 @@ class Order(models.Model):
 
     def __str__(self):
         return self.order_id
+
     
     
 

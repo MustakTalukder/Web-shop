@@ -11,6 +11,38 @@ from rest_framework.parsers import JSONParser
 
 
 
+from .serializer import ProductSerializer, CategoryWithSubcategoriesSerializer
+from django.core.mail import send_mail
+import requests
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+@api_view(['GET'])
+def SendMail(request):
+    try:
+        mailgun_response = requests.post(
+            "https://api.mailgun.net/v3/sandboxd2fabadd0a564567a636b5f6d8f04a52.mailgun.org/messages",
+            auth=("api", "de788b2cac0b793e6bdaecf9ab0ecfa5-a26b1841-af21c416"),
+            data={
+                "from": "Excited User <mailgun@sandboxd2fabadd0a564567a636b5f6d8f04a52.mailgun.org>",
+                "to": ["mustak.prodev@gmail.com"],
+                "subject": "Hello WEBSHOP",
+                "text": "Testing some Mailgun awesomeness!"
+            }
+        )
+
+        if mailgun_response.status_code == 200:
+            logger.info("Email sent successfully!")
+            return Response({"message": "Email sent successfully!"}, status=200)
+        else:
+            logger.error(f"Failed to send email: {mailgun_response.json()}")
+            return Response({"error": "Failed to send email", "details": mailgun_response.json()}, status=mailgun_response.status_code)
+    except Exception as e:
+        logger.exception("An error occurred while sending email")
+        return Response({"error": "An error occurred while sending email", "details": str(e)}, status=500)
+
 
 @api_view(['GET'])
 def ShowAll(request):
@@ -104,7 +136,7 @@ def create_order(request):
 
         serializer = OrderSerializer(data=mapped_data)
         if serializer.is_valid():
-            serializer.save()
+            order = serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print("Serializer errors:", json.dumps(serializer.errors, indent=4))

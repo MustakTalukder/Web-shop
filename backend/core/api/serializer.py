@@ -29,11 +29,12 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
     payment = PaymentSerializer()
+    order_id = serializers.CharField(read_only=True)
 
     class Meta:
         model = Order
         fields = ['email', 'total_amount', 'address', 'description', 'user_fname', 
-                  'user_lname', 'items', 'payment']
+                  'user_lname', 'items', 'payment', 'order_id']
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
