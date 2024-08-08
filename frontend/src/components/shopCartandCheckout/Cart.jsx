@@ -132,11 +132,7 @@ export default function Cart() {
                 onSubmit={(e) => e.preventDefault()}
                 className="position-relative bg-body"
               >
-                <input
-                  className="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4"
-                  type="submit"
-                  defaultValue="APPLY COUPON"
-                />
+                
               </form>
               <button className="btn btn-light">UPDATE CART</button>
             </div>

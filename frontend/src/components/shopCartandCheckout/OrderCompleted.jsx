@@ -1,8 +1,10 @@
 import { useContextElement } from "@/context/Context";
 import { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom';
 
 export default function OrderCompleted() {
-  const { cartProducts, totalPrice } = useContextElement();
+  const { cartProducts, totalPrice, billingDetails } = useContextElement();
+  const { orderId } = useParams();
   const [showDate, setShowDate] = useState(false);
   useEffect(() => {
     setShowDate(true);
@@ -30,7 +32,7 @@ export default function OrderCompleted() {
       <div className="order-info">
         <div className="order-info__item">
           <label>Order Number</label>
-          <span>13119</span>
+          <span>{orderId}</span>
         </div>
         <div className="order-info__item">
           <label>Date</label>
@@ -43,7 +45,7 @@ export default function OrderCompleted() {
         </div>
         <div className="order-info__item">
           <label>Paymetn Method</label>
-          <span>Direct Bank Transfer</span>
+          <span>Visa / Master Card</span>
         </div>
       </div>
       <div className="checkout__totals-wrapper">

@@ -50,6 +50,11 @@ export default function Context({ children }) {
     setTotalPrice(subtotal);
   }, [cartProducts]);
 
+  
+  const removeProductsByIds = (ids) => {
+    setCartProducts((prevProducts) => prevProducts.filter(product => !ids.includes(product.id)));
+  };
+
   const addProductToCart = (id) => {
     const product = products.find((product) => product.id === id);
     if (product && !cartProducts.some((item) => item.id === id)) {
@@ -114,7 +119,8 @@ export default function Context({ children }) {
     wishList,
     setQuickViewItem,
     billingDetails,
-    updateBillingDetails
+    updateBillingDetails,
+    removeProductsByIds
   };
 
   return (

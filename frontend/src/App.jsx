@@ -41,7 +41,7 @@ function App() {
             <Route path="8" element={<NotFound />} />
             <Route path="shop_cart" element={<ShopCartPage />} />
             <Route path="shop_checkout" element={<ShopCheckoutPage />} />
-            <Route path="shop_order_complete" element={<ShopOrderConplate />} />
+            <Route path="/shop_order_complete/:orderId" element={<ShopOrderConplate />} />
             <Route path="payment" element={<PaymentApp />} />
             <Route path="product/:id" element={<ShopSingle />} />
           </Route>

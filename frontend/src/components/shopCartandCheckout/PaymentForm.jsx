@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { useContextElement } from "@/context/Context";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import '../../styles/paymentForm.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 
 const PaymentForm = () => {
-  const { cartProducts,totalPrice, billingDetails } = useContextElement();
+  const { cartProducts,totalPrice, billingDetails, removeProductsByIds } = useContextElement();
   const stripe = useStripe();
   const elements = useElements();
   const [succeeded, setSucceeded] = useState(false);
@@ -15,7 +15,7 @@ const PaymentForm = () => {
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState('');
   const [paymentDetails, setPaymentDetails] = useState('');
-
+  const navigate = useNavigate();
   
   const createPaymentIntent = async () => {
 
@@ -46,12 +46,10 @@ const PaymentForm = () => {
 
   useEffect(() => {
     createPaymentIntent();
-    console.log("payment");
+    console.log("cartProducts");
     console.log(cartProducts);
-    console.log("===DETAILS===");
+    console.log("===Billing DETAILS===");
     console.log(billingDetails);
-    
-    
   }, []);
 
   const handleChange = async (event) => {
@@ -67,8 +65,6 @@ const PaymentForm = () => {
       payment_method: {
         card: elements.getElement(CardElement),
       },
-
-
     });
 
     if (payload.error) {
@@ -78,8 +74,6 @@ const PaymentForm = () => {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      console.log("===payment Details after success==");
-      console.log(payload);
       console.log("==payment Details from strip===");
       console.log(paymentDetails);
       
@@ -108,14 +102,16 @@ const PaymentForm = () => {
         
         // Step 2: Parse the JSON response
         const responseData = await response.json();
-        console.log("Response Data ==", responseData);
+        console.log("Response Data ==");
+        console.log(responseData);
+        
 
         // Step 3: Extract order_id and userEmail from response data
-        const orderId = responseData.order_id;
+        const orderIdFromRs = responseData.order_id;
         const userEmail = billingDetails.email;
-        console.log("Order ID =", orderId);
+        console.log("Order ID =", orderIdFromRs);
         console.log("Order Email =", userEmail);
-
+        
         // Step 4: Send email
         const sendMail = async (email, orderId) => {
           try {
@@ -126,7 +122,6 @@ const PaymentForm = () => {
             if (!mailResponse.ok) {
               throw new Error('Network response was not ok');
             }
-
             const data = await mailResponse.json();
             console.log("Mail Response Data =", data);
           } catch (error) {
@@ -135,14 +130,19 @@ const PaymentForm = () => {
         };
 
         // Call sendMail function
-        await sendMail(userEmail, orderId);
+        console.log("ORRR");
+        console.log(orderIdFromRs);
+        const allProductIds = cartProducts.map(product => product.id);
+        console.log(allProductIds);
+        
+        removeProductsByIds(allProductIds);
+
+        //await sendMail(userEmail, orderIdFromRs);
+        navigate(`/shop_order_complete/${orderIdFromRs}`);
 
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
       }
-    
-      
-      //window.location.href = "http://localhost:3000/shop_order_complete";
     }
   };
 

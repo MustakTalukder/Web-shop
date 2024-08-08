@@ -1,17 +1,11 @@
 import { useContextElement } from "@/context/Context";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
-const countries = [
-  "Australia",
-  "Canada",
-  "United Kingdom",
-  "United States",
-  "Turkey",
-];
+import { Link, useNavigate  } from "react-router-dom";
 
 export default function Checkout() {
   const { cartProducts, totalPrice, billingDetails, updateBillingDetails } = useContextElement();
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -19,9 +13,32 @@ export default function Checkout() {
     updateBillingDetails(field, value);
   };
 
+  const validateFields = () => {
+    let validationErrors = {};
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!billingDetails.email || !emailPattern.test(billingDetails.email)) {
+      validationErrors.email = "Please enter a valid email address.";
+    }
+    if (!billingDetails.address) {
+      validationErrors.address = "Address is required.";
+    }
+    
+    setErrors(validationErrors);
+    
+    return Object.keys(validationErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateFields()) {
+      navigate('/payment');
+    }
+  };
+
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
+    <form onSubmit={handleSubmit}>
       <div className="checkout-form">
         <div className="billing-info__wrapper">
           <h4>BILLING DETAILS</h4>
@@ -168,8 +185,8 @@ export default function Checkout() {
                 .
               </div>
             </div>
-            <button className="btn btn-primary btn-checkout">
-              <Link to="/payment" style={{ color: 'white' }}>NEXT</Link>
+            <button className="btn btn-primary btn-checkout" onClick={handleSubmit}>
+            NEXT
             </button>
           </div>
         </div>
