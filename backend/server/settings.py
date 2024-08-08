@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'core.apps.CoreConfig',
-    'payments'
+    'payments',
+    'anymail'
 
 ]
 
@@ -125,6 +126,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Anymail settings
+ANYMAIL = {
+    'MAILGUN_API_KEY': 'de788b2cac0b793e6bdaecf9ab0ecfa5-a26b1841-af21c416',
+    'MAILGUN_SENDER_DOMAIN': 'sandboxd2fabadd0a564567a636b5f6d8f04a52.mailgun.org',  # e.g., 'mg.yourdomain.com'
+}
+
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+DEFAULT_FROM_EMAIL = 'you@yourdomain.com'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
