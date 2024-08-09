@@ -26,7 +26,7 @@ def SendMail(request):
         return Response('Missing email or order_id parameter', status=400)
     
     subject = 'Webshop Order'
-    message = 'Here is the message for order id {order_id}.'
+    message = 'Your ID: {order_id}. Your payment has been successfully completed.'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     

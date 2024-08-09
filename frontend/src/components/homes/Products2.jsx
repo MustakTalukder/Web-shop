@@ -81,7 +81,7 @@ export default function Products2() {
               <div key={i} className="col-6 col-md-4 col-lg-3">
                 <div className="product-card mb-3 mb-md-4 mb-xxl-5">
                   <div className="pc__img-wrapper">
-                    <Link to={`/product1_simple/${elm.id}`}>
+                    <Link to={`/product/${elm.id}`}>
                       <img
                         loading="lazy"
                         src={`${import.meta.env.VITE_API_URL}${elm.picture1}`}
