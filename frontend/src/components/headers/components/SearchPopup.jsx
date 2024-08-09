@@ -120,7 +120,7 @@ export default function SearchPopup() {
     if (keyword.trim() !== "") {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/products-search/?search=${keyword}`
+          `${import.meta.env.VITE_API_URL}/api/products-search/?search=${keyword}`
         );
         if (response.ok) {
           const data = await response.json();

@@ -32,7 +32,7 @@ export default function Context({ children }) {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get("http://localhost:8000/api/product-list/");
+        const response = await axios.get(import.meta.env.VITE_API_URL+"/api/product-list/");
         setProducts(response.data);
         setQuickViewItem(response.data[0]); // Set the first product as the default quick view item
       } catch (error) {

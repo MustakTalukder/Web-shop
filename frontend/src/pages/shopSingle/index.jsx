@@ -22,7 +22,7 @@ export default function ProductDetailsPage1() {
   useEffect(() => {
     async function fetchProductDetails() {
       try {
-        const response = await axios.get(`http://localhost:8000/api/product-detail/${id}/`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/product-detail/${id}/`);
         setProduct(response.data);
         setLoading(false);
       } catch (error) {

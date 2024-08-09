@@ -20,7 +20,7 @@ export default function ShopPage2() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get(`http://localhost:8000/api/products-search/?category=${name}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products-search/?category=${name}`);
         setProducts(response.data);
         setLoading(false);
       } catch (error) {

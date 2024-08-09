@@ -147,7 +147,7 @@ export default function Shop2({ products }) {
                           <Link to={`/product/${elm.id}`}>
                             <img
                               loading="lazy"
-                              src={`http://localhost:8000/${picture}`}
+                              src={`${import.meta.env.VITE_API_URL}/${picture}`}
                               width="330"
                               height="400"
                               alt={elm.name}

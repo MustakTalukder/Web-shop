@@ -31,7 +31,7 @@ export default function FilterAll({ onPriceChange, onCategoryChange }) {
   useEffect(() => {
     // Fetch categories and subcategories data from the API
     axios
-      .get("http://localhost:8000/api/show-all-categories-and-subcategories/")
+      .get(import.meta.env.VITE_API_URL+"/api/show-all-categories-and-subcategories/")
       .then((response) => {
         setCategories(response.data);
       })
