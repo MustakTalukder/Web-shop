@@ -40,8 +40,8 @@ export default function ProductSlider1({ images }) {
                 className="swiper-slide product-single__image-item"
               >
                 <Item
-                  original={`http://localhost:8000${imgSrc}`}
-                  thumbnail={`http://localhost:8000${imgSrc}`}
+                  original={`${import.meta.env.VITE_API_URL}${imgSrc}`}
+                  thumbnail={`${import.meta.env.VITE_API_URL}${imgSrc}`}
                   width="674"
                   height="674"
                 >
@@ -50,7 +50,7 @@ export default function ProductSlider1({ images }) {
                       <img
                         loading="lazy"
                         className="h-auto w-100"
-                        src={`http://localhost:8000${imgSrc}`}
+                        src={`${import.meta.env.VITE_API_URL}${imgSrc}`}
                         width="674"
                         height="674"
                         alt="image"
@@ -128,7 +128,7 @@ export default function ProductSlider1({ images }) {
               <img
                 loading="lazy"
                 className="h-auto"
-                src={`http://localhost:8000${imgSrc}`}
+                src={`${import.meta.env.VITE_API_URL}${imgSrc}`}
                 width="104"
                 height="104"
                 alt="image"

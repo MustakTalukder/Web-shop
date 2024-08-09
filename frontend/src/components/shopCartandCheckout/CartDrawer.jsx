@@ -63,7 +63,7 @@ export default function CartDrawer() {
                       width={200}
                       height={200}
                       style={{ height: "fit-content" }}
-                      src={`http://localhost:8000${elm.picture1}`}
+                      src={`${import.meta.env.VITE_API_URL}${elm.picture1}`}
                       alt="image"
                     />
                   </div>

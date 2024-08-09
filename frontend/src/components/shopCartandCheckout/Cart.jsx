@@ -55,7 +55,7 @@ export default function Cart() {
                       <div className="shopping-cart__product-item">
                         <img
                           loading="lazy"
-                          src={`http://localhost:8000${elm.picture1}`}
+                          src={`${import.meta.env.VITE_API_URL}${elm.picture1}`}
                           width="120"
                           height="120"
                           alt="image"

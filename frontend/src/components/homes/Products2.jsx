@@ -84,7 +84,7 @@ export default function Products2() {
                     <Link to={`/product1_simple/${elm.id}`}>
                       <img
                         loading="lazy"
-                        src={`http://localhost:8000${elm.picture1}`}
+                        src={`${import.meta.env.VITE_API_URL}${elm.picture1}`}
                         width="330"
                         height="400"
                         alt={elm.name}
@@ -93,7 +93,7 @@ export default function Products2() {
                       {elm.picture2 && (
                         <img
                           loading="lazy"
-                          src={`http://localhost:8000${elm.picture2}`}
+                          src={`${import.meta.env.VITE_API_URL}${elm.picture2}`}
                           width="330"
                           height="400"
                           className="pc__img pc__img-second"
